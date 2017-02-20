@@ -2,9 +2,6 @@ package com.instruction.model;
 
 import java.util.Date;
 
-/**
- * Created by Zhangxq on 2016/7/15.
- */
 public class User {
 
     private Long id;
@@ -12,10 +9,26 @@ public class User {
     private String userPhone;
     private String userEmail;
     private String userPwd;
-    private String pwdSalt;
     private Date createTime;
     private Date modifyTime;
-    private Short isDelete;
+    private String comment;
+    private int userType;
+
+    public int getUserType() {
+        return userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public Long getId() {
         return id;
@@ -57,14 +70,6 @@ public class User {
         this.userPwd = userPwd;
     }
 
-    public String getPwdSalt() {
-        return pwdSalt;
-    }
-
-    public void setPwdSalt(String pwdSalt) {
-        this.pwdSalt = pwdSalt;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -81,11 +86,4 @@ public class User {
         this.modifyTime = modifyTime;
     }
 
-    public Short getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Short isDelete) {
-        this.isDelete = isDelete;
-    }
 }
