@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -70,7 +72,7 @@ public class HttpUtil {
      * @return
      * @throws InterruptedException
      */
-    public HttpResponse post(String url, Map<String, String> params) {
+    public String post(String url, Map<String, String> params) {
         // 2. 创建请求方法的实例，并指定请求URL，添加请求参数。
         HttpPost post = postForm(url, params);
         logger.info("create httppost : " + url);
@@ -84,7 +86,7 @@ public class HttpUtil {
      * @param url
      * @return
      */
-    public HttpResponse get(String url) {
+    public String get(String url) {
         HttpGet get = new HttpGet(url);
         logger.info("create httpget : " + url);
 
@@ -97,7 +99,9 @@ public class HttpUtil {
      * @param request
      * @return
      */
-    private HttpResponse invoke(HttpUriRequest request) {
+    private String invoke(HttpUriRequest request) {
+        String result = null;
+
         if (this._headers != null) {
             //
             addHeaders(request);
@@ -108,7 +112,9 @@ public class HttpUtil {
         try {
             // 3. 调用HttpClient对象的execute(HttpUriRequest request)发送请求，返回一个HttpResponse。
             response = _httpclient.execute(request);
-            logger.info("execute http success... ; body = " + EntityUtils.toString(response.getEntity()));
+            HttpEntity httpEntity = response.getEntity();
+            result = EntityUtils.toString(httpEntity);//取出应答字符串
+            logger.info("execute http success... ; result = " + result);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("execute http exception...");
@@ -118,7 +124,7 @@ public class HttpUtil {
             logger.info("release http ...");
         }
 
-        return response;
+        return result;
     }
 
     /**

@@ -4,6 +4,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:util="http://www.springframework.org/schema/util"
+
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
                          http://www.springframework.org/schema/context
@@ -14,7 +15,7 @@
     <context:annotation-config/>
 
     <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-    <context:component-scan base-package="com"/>
+    <context:component-scan base-package="com.*"/>
 
     <!--HandlerMapping 无需配置，springmvc可以默认启动-->
 
@@ -57,12 +58,30 @@
         </property>
     </bean>
 
-    <bean class="com.relax.WangYiNews"></bean>
-    <bean class="com.relax.Spiders"></bean>
-
     <!--加载properties文件-->
     <!--<util:properties id="spiderConfig" location="classpath:spiders.properties"/>-->
-    <bean id="spiderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:spiders.properties"/>
-    </bean>
+    <!--<bean id="spiderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+    <!--<property name="location" value="classpath:spiders.properties"/>-->
+    <!--</bean>-->
+    <!--<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">-->
+    <!--<property name="locations">-->
+    <!--<list>-->
+    <!--<value>classpath*:spiders.properties</value>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">-->
+    <!--<property name="properties" ref="configProperties" />-->
+    <!--</bean>-->
+    <!--<bean id="spiderConfig" class="org.springframework.beans.factory.config.PropertiesFactoryBean">-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>classpath*:spiders.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="ignoreResourceNotFound" value="false" />-->
+        <!--<property name="properties" ref="spiderConfig" />-->
+    <!--</bean>-->
 </beans>
