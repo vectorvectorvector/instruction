@@ -48,6 +48,7 @@
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient-cache:4.5.3" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpmime:4.5.3" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.10" />
         </element>
       </element>
       <element id="directory" name="META-INF">

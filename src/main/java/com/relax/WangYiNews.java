@@ -6,24 +6,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.relax.model.News;
 import com.relax.service.NewsService;
 import com.relax.util.HttpUtil;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by 周超 on 2017/02/21.
  */
-@Component
-public class WangYiNews implements Runnable,InitializingBean {
+@Service
+public class WangYiNews {
     private Logger log = Logger.getLogger(WangYiNews.class);
 
     @Resource
@@ -49,39 +44,24 @@ public class WangYiNews implements Runnable,InitializingBean {
     private String[] types = {"war", "sport", "tech", "edu", "ent", "money", "gupiao", "travel", "lady"};
     private int simpleId;//查看详细内容的
 
+    private ApplicationContext ac;
+
     /**
      * 爬取新闻保存到数据库中
      *
      * @return
      */
     public void getNews() {
-        log.info("开始爬取新闻...");
-        while (true) {
-            for (String type : types) {
-                String jsonString = httpUtil.get(wangyi_news + "type=" + type + "&page=" + page + "&limit=" + limit);
-                JSONObject object = JSON.parseObject(jsonString);
-                JSONArray array = object.getJSONArray("list");
-                List<News> lists = JSON.parseArray(array.toJSONString(),News.class);
-                for (News news:lists) {
-                    newsService.insertNews(news);
-                }
-            }
-            try {
-                Thread.sleep(60000);
-                log.info("暂停1分钟");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        log.info("WangYiNews...");
+        for (String type : types) {
+            String jsonString = httpUtil.get(wangyi_news + "type=" + type + "&page=" + page + "&limit=" + limit);
+            JSONObject object = JSON.parseObject(jsonString);
+            JSONArray array = object.getJSONArray("list");
+            List<News> lists = JSON.parseArray(array.toJSONString(), News.class);
+            for (News news : lists) {
+                newsService.insertNews(news);
             }
         }
     }
 
-    @Override
-    public void run() {
-        getNews();
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-//        getNews();
-    }
 }
